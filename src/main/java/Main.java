@@ -1,3 +1,5 @@
+import compiler.generated.Parser;
+import java_cup.runtime.Symbol;
 import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
@@ -23,6 +25,7 @@ import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.reactfx.Subscription;
 
 import java.io.*;
+import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
@@ -296,30 +299,24 @@ public class Main extends Application {
                             CPP14Parser parser = new CPP14Parser(tokens);
 
 
-                            parser.addErrorListener(new BaseErrorListener(){
-                                @Override
-                                public void syntaxError(Recognizer<?, ?> recognizer, Object offendingSymbol, int line, int charPositionInLine, String msg, RecognitionException e) {
-                                    super.syntaxError(recognizer, offendingSymbol, line, charPositionInLine, msg, e);
-                                    errores.appendText("Error:("+line+","+charPositionInLine+") "+msg+"\n");
-                                    isGood=!isGood;
-                                }
+                            try {
+                                compiler.generated.Lexer scanner = new compiler.generated.Lexer(new BufferedReader(new StringReader(codeArea.getText())));
 
-                                @Override
-                                public void reportContextSensitivity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, int prediction, ATNConfigSet configs) {
-                                    super.reportContextSensitivity(recognizer, dfa, startIndex, stopIndex, prediction, configs);
+                                compiler.generated.Parser parserCup = new Parser(scanner);
+                                Symbol s = parserCup.parse();
 
-                                }
+                                if (s.toString().equals("#0"))
+                                    errores.setText("SUCCESSFULL COMPILATION ");
+                                else
+                                    errores.setText(s.toString());
 
-                                @Override
-                                public void reportAttemptingFullContext(Parser recognizer, DFA dfa, int startIndex, int stopIndex, BitSet conflictingAlts, ATNConfigSet configs) {
-                                    super.reportAttemptingFullContext(recognizer, dfa, startIndex, stopIndex, conflictingAlts, configs);
+                            } catch (Exception e) {
+                                if(e.getMessage()!=null){
+                                    errores.appendText(e.getMessage());
                                 }
+                                e.getMessage();
+                            }
 
-                                @Override
-                                public void reportAmbiguity(Parser recognizer, DFA dfa, int startIndex, int stopIndex, boolean exact, BitSet ambigAlts, ATNConfigSet configs) {
-                                    super.reportAmbiguity(recognizer, dfa, startIndex, stopIndex, exact, ambigAlts, configs);
-                                }
-                            });
                             // Walk it and attach our listener
                             ParseTreeWalker walker = new ParseTreeWalker();
                             // Specify our entry point
@@ -370,99 +367,4 @@ public class Main extends Application {
             return false;
         }
     }
-
-    /*private void doLexema(String line){
-        for(String key:rules.keySet()){
-            for(String validator:rules.get(key)){
-                if(line.contains(validator)){
-                    List<String> tuple=new ArrayList<>();
-                    tuple.add(key);
-                    tuple.add(validator);
-
-                    tablaTokens.add(tuple);
-                }
-            }
-        }
-    }
-
-    private void getLexema(String line){
-        String lineToOperate=line;
-        Matcher matcher = PATTERN.matcher(line);
-        boolean hasSemicolon=false;
-        int lastWord=0;
-        Stack<String> automataPilaLocal=new Stack<>();
-
-        System.out.flush();
-
-        while(matcher.find()) {
-
-            String token = matcher.group("KEYWORD") != null ? matcher.group("KEYWORD") :
-                    matcher.group("CONSTANTS") !=null? matcher.group("CONSTANTS"):
-                            matcher.group("IDENTIFIERS") != null? matcher.group("IDENTIFIERS"):
-                                    matcher.group("ARITHMETICOPERATORS") != null?matcher.group("ARITHMETICOPERATORS"):
-                                            matcher.group("RELATIONALOPERATORS") != null?matcher.group("RELATIONALOPERATORS"):
-                                                    matcher.group("LOGICALOPERATORS") != null?matcher.group("LOGICALOPERATORS"):
-                                                            matcher.group("BITWISEOPERATORS") != null?matcher.group("BITWISEOPERATORS"):
-                                                                    matcher.group("ASSIGNMENTOPERATORS") !=null?matcher.group("ASSIGNMENTOPERATORS"):
-                                                                            matcher.group("PAREN") != null ? matcher.group("PAREN"):
-                                                                                    matcher.group("BRACE") != null ? matcher.group("BRACE") :
-                                                                                            matcher.group("BRACKET") != null ? matcher.group("BRACKET") :
-                                                                                                    matcher.group("SEMICOLON") != null ? matcher.group("SEMICOLON") :
-                                                                                                            matcher.group("STRING") != null ? matcher.group("STRING") :
-                                                                                                                    matcher.group("COMMENT");
-
-            if(!hasSemicolon){
-                if(matcher.group("SEMICOLON")!=null){
-                    hasSemicolon=!hasSemicolon;
-                }
-
-                lastWord=matcher.end();
-                if(token!=null){
-                    if(token.matches("\\(|\\{|\\[")){
-                        automataPilaLocal.push(token);
-                        lineToOperate=lineToOperate.replaceFirst(Pattern.quote(token),"");
-                    }else{
-                        if(token.matches("\\)|\\}|\\]")){
-                            if(!automataPilaLocal.isEmpty()){
-                                automataPilaLocal.pop();
-                            }
-                            lineToOperate=lineToOperate.replaceFirst(Pattern.quote(token),"");
-                        }else{
-                            lineToOperate=lineToOperate.replaceFirst(Pattern.quote(token),"");
-                        }
-                    }
-                    //System.out.println(lineToOperate);
-                }
-                System.out.println(token);
-            }else{
-                if(!token.equals(";")){
-                    if(!automataPilaLocal.isEmpty()){
-                        if(!automataPilaLocal.contains("{")){
-                            System.out.println("error en index: "+lastWord);
-                        }else{
-                            System.out.println(lineToOperate);
-                        }
-                    }else{
-                        System.out.println("error en index: "+lastWord);
-                    }
-                }
-            }
-        }
-
-        if(!hasSemicolon){
-            if(!automataPilaLocal.isEmpty()){
-                if(!automataPilaLocal.get(automataPilaLocal.size()-1).equals("{")){
-                    errores.setText("Error en index "+lastWord+": Punto y coma faltante.");
-                }
-            }else {
-                errores.setText("Error en index "+lastWord+": Punto y coma faltante.");
-            }
-        }else{
-            errores.clear();
-        }
-
-        System.out.println(hasSemicolon);
-        System.out.println(lineToOperate);
-        System.out.println(automataPilaLocal);
-    }*/
 }
