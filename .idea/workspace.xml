@@ -7,12 +7,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a18bf4e2-41b6-4278-9582-0190621ade15" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/artifacts/compiler_1_0_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/java_cup_11a.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/META-INF/MANIFEST.MF" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/java-cup-11a.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/libs/jflex-1.5.0.jar" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/compiler/generated/Lexer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/compiler/generated/Parser.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/compiler/generated/sym.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/Expression.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/Function.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/Identifier.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/IfElse.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/NamedEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/Operation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/Parameter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/Program.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/ScopedEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/Type.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/core/Variable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/util/Logger.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/util/Node.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/util/SemanticAnalysis.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/util/SemanticException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/util/Util.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/Main.class" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -28,8 +44,8 @@
       <file leaf-file-name="Main.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="309">
-              <caret line="305" column="72" selection-start-line="305" selection-start-column="72" selection-end-line="305" selection-end-column="72" />
+            <state relative-caret-position="275">
+              <caret line="308" column="53" lean-forward="true" selection-start-line="308" selection-start-column="53" selection-end-line="308" selection-end-column="53" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -116,7 +132,22 @@
               <item name="CompilerANTLR" type="462c0819:PsiDirectoryNode" />
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="antlr4" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="compiler10" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CompilerANTLR" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="compiler10" type="b2602c69:ProjectViewProjectNode" />
+              <item name="CompilerANTLR" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="generated" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="compiler10" type="b2602c69:ProjectViewProjectNode" />
@@ -149,10 +180,6 @@
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\Cosas de vinicio\Programacion JAVA\MavenProjects\CompilerANTLR\src\main\java" />
-      <recent name="D:\Cosas de vinicio\Programacion JAVA\MavenProjects\CompilerANTLR\src\main\resources" />
-    </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
@@ -161,6 +188,10 @@
       <recent name="D:\Cosas de vinicio\Programacion JAVA\MavenProjects\CompilerANTLR\src\main\java" />
       <recent name="C:\jflex-1.7.0\MavenProjects\src\main" />
       <recent name="C:\jflex-1.7.0\MavenProjects\src\main\antlr4" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Cosas de vinicio\Programacion JAVA\MavenProjects\CompilerANTLR\src\main\java" />
+      <recent name="D:\Cosas de vinicio\Programacion JAVA\MavenProjects\CompilerANTLR\src\main\resources" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -275,7 +306,7 @@
       <workItem from="1554936743362" duration="715000" />
       <workItem from="1557560969560" duration="412000" />
       <workItem from="1558674868838" duration="882000" />
-      <workItem from="1558773606058" duration="4635000" />
+      <workItem from="1558773606058" duration="5369000" />
     </task>
     <task id="LOCAL-00001" summary="changes">
       <created>1553322376480</created>
@@ -284,11 +315,18 @@
       <option name="project" value="LOCAL" />
       <updated>1553322376480</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="the lastest compiler version">
+      <created>1558779182242</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1558779182242</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="22835000" />
+    <option name="totallyTimeSpent" value="23569000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="293" y="102" width="1621" height="876" extended-state="0" />
@@ -330,12 +368,10 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="changes" />
+    <MESSAGE value="the lastest compiler version" />
+    <option name="LAST_COMMIT_MESSAGE" value="the lastest compiler version" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/target/generated-sources/antlr4/CPP14Listener.java">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
@@ -616,10 +652,17 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/compiler/main/Main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-349">
+          <caret line="18" column="13" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/Main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="309">
-          <caret line="305" column="72" selection-start-line="305" selection-start-column="72" selection-end-line="305" selection-end-column="72" />
+        <state relative-caret-position="275">
+          <caret line="308" column="53" lean-forward="true" selection-start-line="308" selection-start-column="53" selection-end-line="308" selection-end-column="53" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
