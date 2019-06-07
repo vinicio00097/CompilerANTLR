@@ -4,8 +4,10 @@ import javafx.application.Application;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
@@ -25,6 +27,7 @@ import org.fxmisc.richtext.model.StyleSpansBuilder;
 import org.reactfx.Subscription;
 
 import java.io.*;
+import java.net.URISyntaxException;
 import java.nio.charset.Charset;
 import java.time.Duration;
 import java.util.*;
@@ -92,7 +95,6 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
         executor = Executors.newSingleThreadExecutor();
         codeArea = new CodeArea();
         codeArea.setParagraphGraphicFactory(LineNumberFactory.get(codeArea));
@@ -299,7 +301,7 @@ public class Main extends Application {
                             CPP14Parser parser = new CPP14Parser(tokens);
 
 
-                            try {
+                            /*try {
                                 compiler.generated.Lexer scanner = new compiler.generated.Lexer(new BufferedReader(new StringReader(codeArea.getText())));
 
                                 compiler.generated.Parser parserCup = new Parser(scanner);
@@ -313,10 +315,67 @@ public class Main extends Application {
                             } catch (Exception e) {
                                 if(e.getMessage()!=null){
                                     errores.appendText(e.getMessage());
+                                }else{
+                                    System.err.println(e.getMessage());
                                 }
-                                e.getMessage();
+                            }*/
+
+                            String s;
+                            try {
+
+                                File pythonFile=new File(getClass().getResource("compiler.jar").toURI());
+
+                                PrintWriter writer = new PrintWriter("codetoparse.txt", "UTF-8");
+                                writer.write(codeArea.getText());
+                                writer.close();
+
+                                Process p = Runtime.getRuntime().exec("java -jar \""+pythonFile.getAbsolutePath()+"\" codetoparse.txt");
+
+                                BufferedReader stdInput = new BufferedReader(new
+                                        InputStreamReader(p.getInputStream()));
+
+                                BufferedReader stdError = new BufferedReader(new
+                                        InputStreamReader(p.getErrorStream()));
+
+                                StringBuilder output=new StringBuilder();
+                                while ((s = stdInput.readLine()) != null) {
+                                    output.append(s).append("\n");
+                                }
+
+                                while ((s = stdError.readLine()) != null) {
+                                    output.append(s).append("\n");
+                                }
+
+                                if(!output.toString().equals("null\n")){
+                                    errores.setText(output.toString());
+                                }
+                            }
+                            catch (IOException | URISyntaxException e) {
+                                e.printStackTrace();
                             }
 
+                            parser.addErrorListener(new ANTLRErrorListener() {
+                                @Override
+                                public void syntaxError(Recognizer<?, ?> recognizer, Object o, int i, int i1, String s, RecognitionException e) {
+                                    errores.appendText("line "+i+":"+i1+" "+s);
+                                    errores.appendText("\n");
+                                }
+
+                                @Override
+                                public void reportAmbiguity(org.antlr.v4.runtime.Parser parser, DFA dfa, int i, int i1, boolean b, BitSet bitSet, ATNConfigSet atnConfigSet) {
+
+                                }
+
+                                @Override
+                                public void reportAttemptingFullContext(org.antlr.v4.runtime.Parser parser, DFA dfa, int i, int i1, BitSet bitSet, ATNConfigSet atnConfigSet) {
+
+                                }
+
+                                @Override
+                                public void reportContextSensitivity(org.antlr.v4.runtime.Parser parser, DFA dfa, int i, int i1, int i2, ATNConfigSet atnConfigSet) {
+
+                                }
+                            });
                             // Walk it and attach our listener
                             ParseTreeWalker walker = new ParseTreeWalker();
                             // Specify our entry point
